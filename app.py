@@ -134,7 +134,7 @@ if agree:
 
         with col2:
             st.subheader("Feeling Thermometer")
-            fig, axiz = plt.subplots(figsize=(15,12))
+            fig, axiz = plt.subplots()
             sns.barplot(x="party", y="temp", hue="Towards", data=group_df, ax=axiz)
             axiz.set_xlabel('Party')
             axiz.set_ylabel('Feeling Thermometer Score (out of 100)')
@@ -143,7 +143,7 @@ if agree:
                         Does it seem like we prefer our own party and feel cold towards the other party?""") 
 
 
-        import st.components.v1 as components
+        import streamlit.components.v1 as components
         components.html(
             """
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" 
