@@ -21,6 +21,7 @@ def make_v_wordcloud(data):
 
     all_dem_words = list(data.query("party=='Republican'").dem_words)
     all_rep_words = list(data.query("party=='Democrat'").rep_words)
+    st.write(all_dem_words)
 
     all_dem_words = ", ".join(all_dem_words)
     all_rep_words = ", ".join(all_rep_words)
@@ -33,6 +34,7 @@ def make_v_wordcloud(data):
     freq_dict = {item[0]: item[1] for item in counter.most_common(n_show)}
     all_dem_words = [ word for word in all_dem_words if word in list(freq_dict.keys()) ]
     all_rep_words = [ word for word in all_rep_words if word in list(freq_dict.keys()) ]
+    st.write(all_dem_words)
 
     import matplotlib.pyplot as plt
     from matplotlib_venn_wordcloud import venn2_wordcloud
