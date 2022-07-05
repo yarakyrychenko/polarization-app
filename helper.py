@@ -18,10 +18,9 @@ def make_dataframe(executed_query):
 
 def make_v_wordcloud(data):
     import collections
-
+    st.write(df)
     all_dem_words = list(data.query("party=='Republican'").dem_words)
     all_rep_words = list(data.query("party=='Democrat'").rep_words)
-    st.write(all_dem_words)
 
     all_dem_words = ", ".join(all_dem_words)
     all_rep_words = ", ".join(all_rep_words)
