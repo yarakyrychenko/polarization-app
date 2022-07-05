@@ -12,8 +12,8 @@ def insert_user_data(conn, sheet_url):
 def make_dataframe(executed_query):
     import pandas as pd
     df = pd.DataFrame(executed_query.fetchall())
-    df.columns = ["id", "twitter_username", "party", "dem_words", "rep_words", "dem_temp", "rep_temp"]
-    df = df.drop(["id","twitter_username"],axis=1)
+    df.columns = ["id", "twitter_username", "party", "dem_words", "rep_words", "dem_temp", "rep_temp","username_mine"]
+    df = df.drop(["id","twitter_username","username_mine"],axis=1)
     return df
 
 def make_v_wordcloud(data):
