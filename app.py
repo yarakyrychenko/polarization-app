@@ -118,7 +118,7 @@ if agree:
         st.markdown("""Many researchers find that political polarization has increased in the US over the last two decades. 
                 In particular, they find that dislike of the other party, sometimes called affective polarization, has grown a lot.""")
         
-        with st.spinner(text="Making the wordcloud..."):
+        with st.spinner(text="Making the graphs..."):
             figure = make_v_wordcloud(st.session_state.df)   
             group_means = st.session_state.df.groupby("party").agg('mean') 
             group_df = pd.DataFrame({'party':['Republicans', 'Democrats', 'Republicans', 'Democrats'], 
@@ -137,7 +137,7 @@ if agree:
         with col2:
             st.subheader("Feeling Thermometer")
             fig, axiz = plt.subplots(figsize=(15,12))
-            sns.barplot(x="party", y="temp", hue="Towards", data=group_df, ax=axiz, color=["r","b","r","b"])
+            sns.barplot(x="party", y="temp", hue="Towards", data=group_df, ax=axiz)
             axiz.set_xlabel('Party')
             axiz.set_ylabel('Feeling Thermometer Score (out of 100)')
             st.pyplot(fig)
