@@ -137,7 +137,7 @@ if agree:
         with col2:
             st.subheader("Feeling Thermometer")
             fig, axiz = plt.subplots(figsize=(15,12))
-            sns.barplot(x="party", y="temp", hue="Towards", data=group_df, ax=axiz, color=["red","blue"])
+            sns.barplot(x="party", y="temp", hue="Towards", data=group_df, ax=axiz, color=["red","blue","red","blue"])
             axiz.set_xlabel('Party')
             axiz.set_ylabel('Feeling Thermometer Score (out of 100)')
             st.pyplot(fig)
