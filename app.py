@@ -6,6 +6,7 @@ from datetime import datetime
 from uuid import uuid4
 import seaborn as sns 
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from streamlit_lottie import st_lottie
 import requests
@@ -120,13 +121,13 @@ if agree:
         with st.spinner(text="Making the wordcloud..."):
             figure = make_v_wordcloud(st.session_state.df)   
             group_means = st.session_state.df.groupby("party").agg('mean') 
-            group_df = pd.DataFrame({'party':['Republican', 'Democrat', 'Republican', 'Democrat'], 
-                                'towards': ['Democrat', 'Republican', 'Republican', 'Democrat'],
+            group_df = pd.DataFrame({'party':['Republicans', 'Democrats', 'Republicans', 'Democrats'], 
+                                'Towards': ['Democrats', 'Republicans', 'Republicans', 'Democrats'],
                                 'temp': [group_means.loc['Republican','dem_temp'],group_means.loc['Democrat','rep_temp'],
                                 group_means.loc['Republican','rep_temp'], group_means.loc['Democrat','dem_temp']] })
     
         col1, col2 = st.columns(2)  
-        
+
         with col1:
             st.subheader("Describing the **Other** Party")
             st.pyplot(figure)
@@ -135,9 +136,8 @@ if agree:
 
         with col2:
             st.subheader("Feeling Thermometer")
-            fig = Figure()
-            axiz = fig.subplots(figsize=(15,12))
-            sns.barplot(x="party", y="temp", hue="towards", data=group_df, ax=axiz)
+            fig, axiz = plt.subplots(figsize=(15,12))
+            sns.barplot(x="party", y="temp", hue="Towards", data=group_df, ax=axiz, color=["red","blue"])
             axiz.set_xlabel('Party')
             axiz.set_ylabel('Feeling Thermometer Score (out of 100)')
             st.pyplot(fig)
