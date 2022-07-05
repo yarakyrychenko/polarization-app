@@ -126,6 +126,7 @@ if agree:
                                 group_means.loc['Republican','rep_temp'], group_means.loc['Democrat','dem_temp']] })
     
         col1, col2 = st.columns(2)  
+        
         with col1:
             st.subheader("Describing the **Other** Party")
             st.pyplot(figure)
@@ -135,7 +136,7 @@ if agree:
         with col2:
             st.subheader("Feeling Thermometer")
             fig = Figure()
-            axiz = fig.subplots()
+            axiz = fig.subplots(figsize=(15,12))
             sns.barplot(x="party", y="temp", hue="towards", data=group_df, ax=axiz)
             axiz.set_xlabel('Party')
             axiz.set_ylabel('Feeling Thermometer Score (out of 100)')
