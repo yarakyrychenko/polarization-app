@@ -25,7 +25,7 @@ st.set_page_config(
          'About': "# See how the two parties view each other." }
 )
 
-sns.set(rc={'figure.figsize':(10,10)})
+sns.set(rc={'figure.figsize':(4,10)})
 
 lottie_tweet = load_lottieurl('https://assets3.lottiefiles.com/packages/lf20_t2xm9bsw.json')
 st_lottie(lottie_tweet, speed=1, height=200, key="initial")
@@ -123,7 +123,7 @@ if agree:
         components.html(
             """
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" 
-            data-text="Check out this app about the American politics 🇺🇸" 
+            data-text="Check out this app about polarization in the US 🇺🇸🔥" 
             data-url="https://share.streamlit.io/yarakyrychenko/van-bavel-app/main/app.py"
             data-show-count="false">
             data-size="Large" 
@@ -155,8 +155,8 @@ if agree:
             st.subheader("Feeling Thermometer")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the each party. 
                         Does it seem like we prefer our own party and feel cold towards the other party?""") 
-            fig, axiz = plt.subplots(figsize=(10,10))
-            sns.barplot(x="party", y="temp", hue="Towards", data=group_df, ax=axiz)
+            fig, axiz = plt.subplots()
+            sns.barplot(x="party", y="temp", hue="Towards", data=group_df, ax=axiz, palette=["r",'b'])
             axiz.set_xlabel('Party')
             axiz.set_ylabel('Feeling Thermometer Score (out of 100)')
             st.pyplot(fig)
