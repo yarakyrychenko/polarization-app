@@ -7,7 +7,7 @@ def insert_user_data(conn, sheet_url):
             INSERT INTO "{sheet_url}" (id, twitter_username, party, dem_words, rep_words, dem_temp, rep_temp, username_mine)
             VALUES ("{st.session_state.id}", "{st.session_state.name}", "{st.session_state.party}", "{st.session_state.dem_words}", "{st.session_state.rep_words}", "{st.session_state.dem_temp}","{st.session_state.rep_temp}","{st.session_state.username_mine}")
             """
-    conn.execute(insert)
+    #conn.execute(insert)
 
 def make_dataframe(executed_query):
     import pandas as pd
