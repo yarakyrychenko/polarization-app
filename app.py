@@ -25,7 +25,7 @@ st.set_page_config(
          'About': "# See how the two parties view each other." }
 )
 
-sns.set(rc={'figure.figsize':(4,10)})
+sns.set(rc={'figure.figsize':(10,4)})
 
 lottie_tweet = load_lottieurl('https://assets3.lottiefiles.com/packages/lf20_t2xm9bsw.json')
 st_lottie(lottie_tweet, speed=1, height=200, key="initial")
