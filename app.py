@@ -24,8 +24,7 @@ st.set_page_config(
          'About': "# See how the two parties view each other." }
 )
 
-sns.set_style("whitegrid")
-sns.set_palette("vlag")
+sns.set_style("white")
 
 lottie_tweet = load_lottieurl('https://assets3.lottiefiles.com/packages/lf20_t2xm9bsw.json')
 st_lottie(lottie_tweet, speed=1, height=200, key="initial")
@@ -114,10 +113,10 @@ if agree:
             st.session_state.df = make_dataframe(st.session_state.conn.execute(query))
 
     if st.session_state.submitted and 'df' in st.session_state:    
-        col1, col2 = st.columns(2)  
+        
         st.markdown("""Many researchers find that political polarization has increased in the US over the last two decades. 
                 In particular, they find that dislike of the other party, sometimes called affective polarization, has grown a lot.""")
-
+        
         with st.spinner(text="Making the wordcloud..."):
             figure = make_v_wordcloud(st.session_state.df)   
             group_means = st.session_state.df.groupby("party").agg('mean') 
@@ -126,20 +125,20 @@ if agree:
                                 'temp': [group_means.loc['Republican','dem_temp'],group_means.loc['Democrat','rep_temp'],
                                 group_means.loc['Republican','rep_temp'], group_means.loc['Democrat','dem_temp']] })
     
-        
+        col1, col2 = st.columns(2)  
         with col1:
-            st.header("Outgroup Animosity: Describing the **other** party.")
+            st.subheader("Describing the **Other** Party")
             st.pyplot(figure)
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe the **other** with the words above. 
                             Do the words seem negative or positive?""")
 
         with col2:
-            st.header("Feeling Thermometer")
+            st.subheader("Feeling Thermometer")
             fig = Figure()
             axiz = fig.subplots()
             sns.barplot(x="party", y="temp", hue="towards", data=group_df, ax=axiz)
-            axiz.set_xlabel('Year')
-            axiz.set_ylabel('Books Read')
+            axiz.set_xlabel('Party')
+            axiz.set_ylabel('Feeling Thermometer Score (out of 100)')
             st.pyplot(fig)
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the each party. 
                         Does it seem like we prefer our own party and feel cold towards the other party?""") 

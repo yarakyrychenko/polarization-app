@@ -18,8 +18,7 @@ def make_dataframe(executed_query):
 
 def make_v_wordcloud(data):
     import collections
-    st.write("inside the function")
-    st.write(data)
+
     all_dem_words = list(data.query("party=='Republican'").dem_words)
     all_rep_words = list(data.query("party=='Democrat'").rep_words)
 
@@ -41,12 +40,12 @@ def make_v_wordcloud(data):
 
     fig, ax = plt.subplots(figsize=(15,12))
 
-    ax.set_title('Words People Think Describe The Other Party', fontsize=20)
+    #ax.set_title('Words People Think Describe The Other Party', fontsize=20)
     v = venn2_wordcloud([set(all_rep_words), set(all_dem_words)],
                     set_colors=['red', 'blue'],
                     set_edgecolors=['w', 'w'],
                     alpha = .2,
-                    ax=ax, set_labels=['Republican', 'Democrat'])
+                    ax=ax, set_labels=['Democrats about Republicans', 'Republicans about Democrats'])
                     #word_to_frequency=freq_dict )
     # add color
     #v.get_patch_by_id('10').set_color('red')
