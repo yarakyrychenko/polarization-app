@@ -124,7 +124,7 @@ if agree:
                                 'towards': ['Democrat', 'Republican', 'Republican', 'Democrat'],
                                 'temp': [group_means.loc['Republican','dem_temp'],group_means.loc['Democrat','rep_temp'],
                                 group_means.loc['Republican','rep_temp'], group_means.loc['Democrat','dem_temp']] })
-            ax = sns.barplot(x="party", y="temp", hue="towards", data=group_df)
+            feelingpic = sns.barplot(x="party", y="temp", hue="towards", data=group_df)
         
         with col1:
             st.header("Outgroup Animosity: Describing the **other** party.")
@@ -134,7 +134,7 @@ if agree:
 
         with col2:
             st.header("Feeling Thermometer")
-            st.pyplot(ax)
+            st.pyplot(feelingpic)
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the each party. 
                         Does it seem like we prefer our own party and feel cold towards the other party?""") 
 
