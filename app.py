@@ -30,6 +30,11 @@ st_lottie(lottie_tweet, speed=1, height=200, key="initial")
 
 st.title("🇺🇸🔥 The US. Polarized.") 
 st.subheader("""Discover what the two parties think about each other.""")
+st.markdown("""Many researchers find that political polarization has increased in the US over the last two decades. 
+                In particular, they consistently find that dislike of the other party, called affective polarization, has grown. 
+                This website explores how those who identify with the Republican or Democratic parties describe and feel about the other party.
+                """)
+        
 
 placeholder = st.empty()
 with placeholder.container():
@@ -113,9 +118,6 @@ if agree:
 
     if st.session_state.submitted and 'df' in st.session_state:    
         
-        st.markdown("""Many researchers find that political polarization has increased in the US over the last two decades. 
-                In particular, they find that dislike of the other party, sometimes called affective polarization, has grown a lot.""")
-        
         with st.spinner(text="Making the graphs..."):
             figure = make_v_wordcloud(st.session_state.df)   
             group_means = st.session_state.df.groupby("party").agg('mean') 
@@ -128,19 +130,20 @@ if agree:
 
         with col1:
             st.subheader("Describing the **Other** Party")
-            st.pyplot(figure)
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe the **other** with the words above. 
                             Do the words seem negative or positive?""")
+            st.pyplot(figure)
 
         with col2:
             st.subheader("Feeling Thermometer")
-            fig, axiz = plt.subplots()
+            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the each party. 
+                        Does it seem like we prefer our own party and feel cold towards the other party?""") 
+            fig, axiz = plt.subplots(figsize=(10,10))
             sns.barplot(x="party", y="temp", hue="Towards", data=group_df, ax=axiz)
             axiz.set_xlabel('Party')
             axiz.set_ylabel('Feeling Thermometer Score (out of 100)')
             st.pyplot(fig)
-            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the each party. 
-                        Does it seem like we prefer our own party and feel cold towards the other party?""") 
+            
 
 
         import streamlit.components.v1 as components

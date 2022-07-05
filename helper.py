@@ -37,7 +37,7 @@ def make_v_wordcloud(data):
     import matplotlib.pyplot as plt
     from matplotlib_venn_wordcloud import venn2_wordcloud
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(10,10))
 
     #ax.set_title('Words People Think Describe The Other Party', fontsize=20)
     v = venn2_wordcloud([set(all_rep_words), set(all_dem_words)],
