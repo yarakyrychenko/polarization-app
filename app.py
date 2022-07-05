@@ -25,6 +25,8 @@ st.set_page_config(
          'About': "# See how the two parties view each other." }
 )
 
+sns.set(rc={'figure.figsize':(10,10)})
+
 lottie_tweet = load_lottieurl('https://assets3.lottiefiles.com/packages/lf20_t2xm9bsw.json')
 st_lottie(lottie_tweet, speed=1, height=200, key="initial")
 
@@ -117,7 +119,22 @@ if agree:
             st.session_state.df = make_dataframe(st.session_state.conn.execute(query))
 
     if st.session_state.submitted and 'df' in st.session_state:    
+        import streamlit.components.v1 as components
+        components.html(
+            """
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" 
+            data-text="Check out this app about the American politics 🇺🇸" 
+            data-url="https://share.streamlit.io/yarakyrychenko/van-bavel-app/main/app.py"
+            data-show-count="false">
+            data-size="Large" 
+            data-hashtags="polarization,usa"
+            Tweet about this website
+            </a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            """
+                   )
         
+
         with st.spinner(text="Making the graphs..."):
             figure = make_v_wordcloud(st.session_state.df)   
             group_means = st.session_state.df.groupby("party").agg('mean') 
@@ -146,21 +163,7 @@ if agree:
             
 
 
-        import streamlit.components.v1 as components
-        components.html(
-            """
-            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" 
-            data-text="Check out this app about the American politics 🇺🇸" 
-            data-url="https://share.streamlit.io/yarakyrychenko/van-bavel-app/main/app.py"
-            data-show-count="false">
-            data-size="Large" 
-            data-hashtags="polarization,usa"
-            Tweet
-            </a>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            """
-                   )
-
+        
 
 
     
