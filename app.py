@@ -1,5 +1,6 @@
 import streamlit as st
 from shillelagh.backends.apsw.db import connect
+from matplotlib.figure import Figure
 from helper import *
 from datetime import datetime
 from uuid import uuid4
@@ -124,7 +125,7 @@ if agree:
                                 'towards': ['Democrat', 'Republican', 'Republican', 'Democrat'],
                                 'temp': [group_means.loc['Republican','dem_temp'],group_means.loc['Democrat','rep_temp'],
                                 group_means.loc['Republican','rep_temp'], group_means.loc['Democrat','dem_temp']] })
-            feelingpic = sns.barplot(x="party", y="temp", hue="towards", data=group_df)
+    
         
         with col1:
             st.header("Outgroup Animosity: Describing the **other** party.")
@@ -134,7 +135,12 @@ if agree:
 
         with col2:
             st.header("Feeling Thermometer")
-            st.pyplot(feelingpic)
+            fig = Figure()
+            axiz = fig.subplots()
+            sns.barplot(x="party", y="temp", hue="towards", data=group_df, ax=axiz)
+            axiz.set_xlabel('Year')
+            axiz.set_ylabel('Books Read')
+            st.pyplot(fig)
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the each party. 
                         Does it seem like we prefer our own party and feel cold towards the other party?""") 
 
