@@ -77,7 +77,7 @@ if agree:
         st.session_state.rep_words = ", ".join(rep_words).lower()
         form.markdown("#### Please add five words that describe Democrats best")
         for i in range(5):
-            dem_words.append(form.text_input("D"+str(i+1)))
+            dem_words.append(form.text_input("D"+str(i+1), key = "D"+str(i+1)))
         st.session_state.dem_words = ", ".join(dem_words).lower()
 
         form.markdown("#### Feeling Thermometer")
@@ -95,7 +95,7 @@ if agree:
         st.session_state.party = form.radio(
                      "How do you identify?",
                     ('Independent','Republican', 'Democrat')) 
-        st.session_state.disable = True if dem_words[-2:] == ", " else False
+        st.session_state.disable = True if st.session_state.D5 == "" else False
  
         form.warning("Please fill out every field of the form to enable the submit button.")              
         st.session_state.submitted = form.button("Submit", disabled=st.session_state.disable)
@@ -160,7 +160,7 @@ if agree:
             st.subheader("Feelings Towards Ingroup")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards their own party.
                             On average, people gave their own party a {sum(ingroup.temp)/2} out of 100.""") 
-            fig = plt.stem(x="party", y="temp", data=ingroup, palette=["r",'b'], alpha=.2)
+            fig = plt.stem(label="party", heads="temp", data=ingroup, palette=["r",'b'], alpha=.2)
             #axiz.set_ylabel('Feeling Thermometer Score')
             st.pyplot(fig)
 
