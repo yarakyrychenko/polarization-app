@@ -16,7 +16,7 @@ def make_dataframe(executed_query):
     df = df.drop(["id","twitter_username","username_mine"],axis=1)
     return df
 
-def make_v_wordcloud(all_rep_words,all_dem_words):
+def make_v_wordcloud(all_rep_words,all_dem_words, label_list):
     import collections
 
     all_dem_words = ", ".join(all_dem_words)
