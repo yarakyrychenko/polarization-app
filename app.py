@@ -1,6 +1,5 @@
 import streamlit as st
 from shillelagh.backends.apsw.db import connect
-from matplotlib.figure import Figure
 from helper import *
 from datetime import datetime
 from uuid import uuid4
@@ -33,8 +32,8 @@ st_lottie(lottie_tweet, speed=1, height=200, key="initial")
 st.title("🇺🇸🔥 The US. Polarized.") 
 st.subheader("""Discover what the two parties think about each other.""")
 st.markdown("""Many researchers find that political polarization has increased in the US over the last two decades. 
-                In particular, they consistently find that dislike of the other party, called affective polarization, has grown. 
-                This website explores how those who identify with the Republican or Democratic parties describe and feel about the other party.
+                In particular, studies consistently find affective polarization, i.e., favorable feelings towards own party (the ingroup) and dislike towards the other party (the outgroup), has grown. 
+                This website explores how those who identify with the Republican or Democratic parties describe and feel about each other and themselves.
                 """)
         
 
@@ -72,23 +71,30 @@ if agree:
             ('This handle belongs to me.', 'This handle belongs to someone else.')) 
 
         dem_words, rep_words = [], []
-        form.markdown("#### Please add five words that describe Democrats best")
-        for i in range(5):
-            dem_words.append(form.text_input("D"+str(i+1)))
-        st.session_state.dem_words = ", ".join(dem_words).lower()
         form.markdown("#### Please add five words that describe Republicans best")
         for i in range(5):
             rep_words.append(form.text_input("R"+str(i+1),key = "R"+str(i+1)))
         st.session_state.rep_words = ", ".join(rep_words).lower()
+        form.markdown("#### Please add five words that describe Democrats best")
+        for i in range(5):
+            dem_words.append(form.text_input("D"+str(i+1)))
+        st.session_state.dem_words = ", ".join(dem_words).lower()
 
         form.markdown("#### Feeling Thermometer")
-        form.slider("How warm do you feel about Democrats (0 = coldest rating; 100 = warmest rating)?", 
-                    min_value=0, max_value=100, value=50, step=1,key="dem_temp")          
-        form.slider("How warm do you feel about Republicans (0 = coldest rating; 100 = warmest rating)?", 
-                        min_value=0, max_value=100, value=50, step=1,key="rep_temp") 
+        form.markdown("""The **feeling thermometer** is a popular tool in psychology and political science that is meant to measure how a person feels towards a particular group or individual. 
+                        Please rate each party using the feeling thermometer. 
+                        You can give a rating between 0 (the coldest) and 100 (the warmest).
+                        Ratings **above 50** degrees mean you feel positive or warm toward the group. 
+                        Ratings **below 50** degrees mean you feel negative or cold toward the group. 
+                        If you don't feel anything toward the group, give a rating of 50.""")
+
+        form.slider("How do you feel about Republicans?", 
+                    min_value=0, max_value=100, value=50, step=1,key="rep_temp")          
+        form.slider("How do you feel about Democrats?", 
+                        min_value=0, max_value=100, value=50, step=1,key="dem_temp") 
         st.session_state.party = form.radio(
                      "How do you identify?",
-                    ('Independant','Republican', 'Democrat')) 
+                    ('Independent','Republican', 'Democrat')) 
         st.session_state.disable = True if st.session_state.R5 == "" else False
  
         form.warning("Please fill out every field of the form to enable the submit button.")              
@@ -100,7 +106,7 @@ if agree:
         if st.session_state.submitted:
             st.session_state.id = datetime.now().strftime('%Y%m-%d%H-%M-') + str(uuid4())
             st.success("Thanks for submitting your answers!")
-            st.markdown(f"Your app ID is {st.session_state.id}. Note it down and email us if you want your answers deleted.") 
+            st.markdown(f"Your app ID is {st.session_state.id}. Email us with it if you want your answers deleted.") 
                         
             st.session_state.conn = connect(":memory:", 
                             adapter_kwargs = {

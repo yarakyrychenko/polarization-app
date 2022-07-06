@@ -1,6 +1,7 @@
 import streamlit as st
 from shillelagh.backends.apsw.db import connect
 import collections
+import pandas as pd
 
 
 def insert_user_data(conn, sheet_url):
@@ -11,13 +12,12 @@ def insert_user_data(conn, sheet_url):
     conn.execute(insert)
 
 def make_dataframe(executed_query):
-    import pandas as pd
     df = pd.DataFrame(executed_query.fetchall())
     df.columns = ["id", "twitter_username", "party", "dem_words", "rep_words", "dem_temp", "rep_temp","username_mine"]
     df = df.drop(["id","twitter_username","username_mine"],axis=1)
     return df
 
-def make_v_wordcloud(all_rep_words,all_dem_words, label_list):
+def make_v_wordcloud(all_rep_words, all_dem_words, label_list=["Republican","Democrat"]):
 
     all_dem_words = ", ".join(all_dem_words)
     all_rep_words = ", ".join(all_rep_words)
