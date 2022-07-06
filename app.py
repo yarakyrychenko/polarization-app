@@ -151,38 +151,35 @@ if agree:
         
         st.markdown("")
     
-        row1col1, row1col2 = st.columns(2)  
+        row1sep1, row1col1, row1sep2, row1col2, row1sep3 = st.columns((.1, 1.5, .2, 1.5, .1))  
+        with row1sep1:
+            st.markdown("")
 
         with row1col1:
             st.subheader("Words about **Own** Party")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe **their** party with the words below.
                 The most common words describing own party were {', '.join(most_common_in)}.""")
             st.pyplot(ingroup_cloud)
+        with row1sep2:
+            st.markdown("")
 
         with row1col2:
             st.subheader("Words about **Other** Party")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe the **other** party with the words below. 
                 The most common words describing the other party were {', '.join(most_common_out)}.""")
             st.pyplot(outgroup_cloud)
-        
+        with row1sep3:
+            st.markdown("")
+
         st.markdown("")
 
-        row2col1, row2col2 = st.columns(2)  
+        row2sep1, row2col1, row2sep2, row2col2, row2sep3 = st.columns((.1, 1.5, .2, 1.5, .1))  
+        with row2sep1:
+            st.markdown("")
         with row2col1:
             st.subheader("Feelings Towards Ingroup")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards their own party.
                             On average, people gave their own party a {sum(ingroup.temp)/2} out of 100.""") 
-
-        with row2col2:
-            st.subheader("Feelings Towards Outgroup")
-            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the other party. 
-                            On average, people gave the other party a {sum(outgroup.temp)/2} out of 100.""")
-
-        row3sep1, row3col1, row3sep2, row3col2, row3sep3 = st.columns((.1, 1.5, .2, 1.5, .1))  
-        with row3sep1:
-            st.markdown("")
-
-        with row3col1:
             fig1, axiz1 = plt.subplots()
             sns.barplot(x="party", y="temp", data=ingroup, ax=axiz1, palette=["lightcoral","cornflowerblue"])
             axiz1.set_ylabel('Feeling Thermometer Score')
@@ -191,9 +188,14 @@ if agree:
             axiz1.set_xticklabels(labels=ingroup["party"],rotation=45)
             axiz1.set(ylim=(0, 100))
             st.pyplot(fig1) 
-        with row3sep2:
+
+        with row2sep2:
             st.markdown("")
-        with row3col2:
+
+        with row2col2:
+            st.subheader("Feelings Towards Outgroup")
+            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the other party. 
+                            On average, people gave the other party a {sum(outgroup.temp)/2} out of 100.""")
             fig2, axiz2 = plt.subplots()
             sns.barplot(x="party", y="temp", data=outgroup, ax=axiz2, palette=["lightcoral","cornflowerblue"])
             axiz2.set_ylabel('Feeling Thermometer Score')
@@ -202,9 +204,10 @@ if agree:
             axiz2.set_xticklabels(labels=outgroup["party"],rotation=45)
             axiz2.set(ylim=(0, 100))
             st.pyplot(fig2)
-        
-        with row3sep3:
+
+        with row2sep3:
             st.markdown("")
+
         
         st.markdown("")
         st.markdown("***")
