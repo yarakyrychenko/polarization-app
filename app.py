@@ -104,7 +104,7 @@ if agree:
     if  st.session_state.submitted:
         form_place.empty()
 
-    with st.expander("Thank you",expanded=True):
+    with st.expander("Form Submitted",expanded=True):
         if st.session_state.submitted:
             st.session_state.id = datetime.now().strftime('%Y%m-%d%H-%M-') + str(uuid4())
             st.markdown(f"Thanks for submitting your answers! Your app ID is {st.session_state.id}. Email us with it if you want your answers deleted.") 
@@ -137,9 +137,9 @@ if agree:
             ingroup_cloud, most_common_in = make_v_wordcloud(all_rep_words,all_dem_words,['Republicans about Republicans','Democrats about Democrats']) 
 
             group_means = st.session_state.df.groupby("party").agg('mean') 
-            outgroup = pd.DataFrame({'party':['Republicans View Democrats', 'Democrats View Republicans'], 
+            outgroup = pd.DataFrame({'party':['Republicans\n View\n Democrats', 'Democrats\n View\n Republicans'], 
                                 'temp': [group_means.loc['Republican','dem_temp'],group_means.loc['Democrat','rep_temp']] })
-            ingroup = pd.DataFrame({'party':['Republicans View Republicans', 'Democrats View Democrats'], 
+            ingroup = pd.DataFrame({'party':['Republicans\n View\n Republicans', 'Democrats\n View\n Democrats'], 
                                 'temp': [group_means.loc['Republican','rep_temp'], group_means.loc['Democrat','dem_temp']] })
     
         row1col1, row1col2 = st.columns(2)  
