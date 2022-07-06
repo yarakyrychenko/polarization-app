@@ -24,8 +24,9 @@ st.set_page_config(
          'About': "# See how the two parties view each other." }
 )
 
-sns.set_style("whitegrid")
+
 sns.set(rc={'figure.figsize':(6,4)})
+sns.set_style("whitegrid")
 
 lottie_tweet = load_lottieurl('https://assets3.lottiefiles.com/packages/lf20_t2xm9bsw.json')
 st_lottie(lottie_tweet, speed=1, height=200, key="initial")
@@ -161,7 +162,7 @@ if agree:
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards their own party.
                             On average, people gave their own party a {sum(ingroup.temp)/2} out of 100.""") 
             fig, axiz = plt.subplots()
-            sns.barplot(x="party", y="temp", data=outgroup, ax=axiz, palette=["lightcoral","cornflowerblue"])
+            sns.barplot(x="party", y="temp", data=outgroup, ax=axiz, palette=["lightcoral","cornflowerblue"], width=.5)
             axiz.set_ylabel('Feeling Thermometer Score')
             axiz.set(ylim=(0, 100))
             st.pyplot(fig)
@@ -171,7 +172,7 @@ if agree:
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the other party. 
                             On average, people gave their own party a {sum(outgroup.temp)/2} out of 100.""")
             fig, axiz = plt.subplots()
-            sns.barplot(x="party", y="temp", data=outgroup, ax=axiz, palette=["lightcoral","cornflowerblue"])
+            sns.barplot(x="party", y="temp", data=outgroup, ax=axiz, palette=["lightcoral","cornflowerblue"], width=.5)
             axiz.set_ylabel('Feeling Thermometer Score')
             axiz.set(ylim=(0, 100))
             st.pyplot(fig)
