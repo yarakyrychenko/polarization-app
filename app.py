@@ -32,8 +32,8 @@ st_lottie(lottie_tweet, speed=1, height=200, key="initial")
 st.title("🇺🇸🔥 The US. Polarized.") 
 st.subheader("""Discover what the two parties think about each other.""")
 st.markdown("""Many researchers find that political polarization has increased in the US over the last two decades. 
-                In particular, studies consistently find affective polarization, i.e., favorable feelings towards own party (the ingroup) and dislike towards the other party (the outgroup), has grown. 
-                This website explores how those who identify with the Republican or Democratic parties describe and feel about each other and themselves.
+                In particular, studies consistently find that **affective polarization**, i.e., favorable feelings towards own party (the ingroup) and dislike towards the other party (the outgroup), has grown. 
+                This website explores how those who identify with the Republican or Democratic parties describe and feel about the parties.
                 """)
         
 
@@ -95,7 +95,7 @@ if agree:
         st.session_state.party = form.radio(
                      "How do you identify?",
                     ('Independent','Republican', 'Democrat')) 
-        st.session_state.disable = True if st.session_state.R5 == "" else False
+        st.session_state.disable = True if st.session_state.D5 == "" else False
  
         form.warning("Please fill out every field of the form to enable the submit button.")              
         st.session_state.submitted = form.button("Submit", disabled=st.session_state.disable)
@@ -161,9 +161,8 @@ if agree:
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards their own party.
                             On average, people gave their own party a {sum(ingroup.temp)/2} out of 100.""") 
             fig, axiz = plt.subplots()
-            sns.barplot(x="party", y="temp", data=ingroup, ax=axiz, palette=["r",'b'])
-            axiz.set_xlabel('Party')
-            axiz.set_ylabel('Feeling Thermometer Score (out of 100)')
+            sns.barplot(x="party", y="temp", data=ingroup, ax=axiz, palette=["r",'b'],saturation=.2)
+            axiz.set_ylabel('Feeling Thermometer Score')
             st.pyplot(fig)
 
         with row2col2:
@@ -171,9 +170,8 @@ if agree:
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the other party. 
                             On average, people gave their own party a {sum(outgroup.temp)/2} out of 100.""")
             fig, axiz = plt.subplots()
-            sns.barplot(x="party", y="temp", data=outgroup, ax=axiz, palette=["r",'b'])
-            axiz.set_xlabel('Party')
-            axiz.set_ylabel('Feeling Thermometer Score (out of 100)')
+            sns.barplot(x="party", y="temp", data=outgroup, ax=axiz, palette=["r",'b'],saturation=.2)
+            axiz.set_ylabel('Feeling Thermometer Score')
             st.pyplot(fig)
         
         st.markdown("***")
