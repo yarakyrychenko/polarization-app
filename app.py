@@ -160,9 +160,8 @@ if agree:
             st.subheader("Feelings Towards Ingroup")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards their own party.
                             On average, people gave their own party a {sum(ingroup.temp)/2} out of 100.""") 
-            fig, axiz = plt.subplots()
-            sns.barplot(x="party", y="temp", data=ingroup, ax=axiz, palette=["r",'b'],saturation=.2)
-            axiz.set_ylabel('Feeling Thermometer Score')
+            fig = plt.stem(x="party", y="temp", data=ingroup, palette=["r",'b'], alpha=.2)
+            #axiz.set_ylabel('Feeling Thermometer Score')
             st.pyplot(fig)
 
         with row2col2:
