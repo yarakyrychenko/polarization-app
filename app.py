@@ -121,12 +121,12 @@ if agree:
     if st.session_state.submitted and 'df' in st.session_state:    
 
         with st.spinner(text="Making graphs..."):
-            all_dem_words = list(st.session_state.query("party=='Republican'").dem_words)
-            all_rep_words = list(st.session_state.query("party=='Democrat'").rep_words)
+            all_dem_words = list(st.session_state.df.query("party=='Republican'").dem_words)
+            all_rep_words = list(st.session_state.df.query("party=='Democrat'").rep_words)
             outgroup_cloud = make_v_wordcloud(all_dem_words,all_rep_words)   
 
-            all_dem_words = list(st.session_state.query("party=='Democrat'").dem_words)
-            all_rep_words = list(st.session_state.query("party=='Republican'").rep_words)
+            all_dem_words = list(st.session_state.df.query("party=='Democrat'").dem_words)
+            all_rep_words = list(st.session_state.df.query("party=='Republican'").rep_words)
             ingroup_cloud = make_v_wordcloud(all_dem_words,all_rep_words) 
             group_means = st.session_state.df.groupby("party").agg('mean') 
             outgroup = pd.DataFrame({'party':['Republicans View Democrats', 'Democrats View Republicans'], 
