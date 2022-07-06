@@ -31,13 +31,20 @@ sns.set_style("whitegrid")
 lottie_tweet = load_lottieurl('https://assets3.lottiefiles.com/packages/lf20_t2xm9bsw.json')
 st_lottie(lottie_tweet, speed=1, height=200, key="initial")
 
-st.title("🇺🇸🔥 The US. Polarized.") 
-st.subheader("""Discover what the two parties think about each other.""")
-st.markdown("""Many researchers find that political polarization has increased in the US over the last two decades. 
+row0sep1, row0col1, row0sep2 = st.columns(.1,3.2,.1)
+with row0sep1:
+    st.markdown("")
+
+with row0col1:
+    st.title("🇺🇸🔥 The US. Polarized.") 
+    st.subheader("""Discover what the two parties think about each other.""")
+    st.markdown("""Many researchers find that political polarization has increased in the US over the last two decades. 
                 In particular, studies consistently find that **affective polarization**, i.e., favorable feelings towards own party (the ingroup) and dislike towards the other party (the outgroup), has grown. 
                 This website explores how those who identify with the Republican or Democratic parties describe and feel about the parties.
                 """)
-        
+
+with row0sep2:
+    st.markdown("")        
 
 placeholder = st.empty()
 with placeholder.container():
@@ -179,7 +186,7 @@ if agree:
             fig1, axiz1 = plt.subplots()
             sns.barplot(x="party", y="temp", data=ingroup, ax=axiz1, palette=["lightcoral","cornflowerblue"])
             axiz1.set_ylabel('Feeling Thermometer Score')
-            axiz1.set_yticklabels(range(0, 100, 5))
+            axiz1.set_yticks(range(0,100,5))
             axiz1.set_xlabel('')
             axiz1.set_xticklabels(labels=ingroup["party"],rotation=45)
             axiz1.set(ylim=(0, 100))
@@ -191,7 +198,7 @@ if agree:
             sns.barplot(x="party", y="temp", data=outgroup, ax=axiz2, palette=["lightcoral","cornflowerblue"])
             axiz2.set_ylabel('Feeling Thermometer Score')
             axiz2.set_xlabel('')
-            axiz2.set_yticklabels(range(0,100,5))
+            axiz2.set_yticks(range(0,100,5))
             axiz2.set_xticklabels(labels=outgroup["party"],rotation=45)
             axiz2.set(ylim=(0, 100))
             st.pyplot(fig2)
