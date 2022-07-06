@@ -25,7 +25,7 @@ st.set_page_config(
 )
 
 
-sns.set(rc={'figure.figsize':(4,4)})
+sns.set(rc={'figure.figsize':(4,5)})
 sns.set_style("whitegrid")
 
 lottie_tweet = load_lottieurl('https://assets3.lottiefiles.com/packages/lf20_t2xm9bsw.json')
