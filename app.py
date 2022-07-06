@@ -141,6 +141,8 @@ if agree:
                                 'temp': [group_means.loc['Republican','dem_temp'],group_means.loc['Democrat','rep_temp']] })
             ingroup = pd.DataFrame({'party':['Republicans\n View\n Republicans', 'Democrats\n View\n Democrats'], 
                                 'temp': [group_means.loc['Republican','rep_temp'], group_means.loc['Democrat','dem_temp']] })
+        
+        st.markdown("")
     
         row1col1, row1col2 = st.columns(2)  
 
@@ -155,6 +157,8 @@ if agree:
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe the **other** party with the words below. 
                 The most common words describing the other party were {', '.join(most_common_out)}.""")
             st.pyplot(outgroup_cloud)
+        
+        st.markdown("")
 
         row2col1, row2col2 = st.columns(2)  
         with row2col1:
@@ -165,7 +169,7 @@ if agree:
         with row2col2:
             st.subheader("Feelings Towards Outgroup")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the other party. 
-                            On average, people gave their own party a {sum(outgroup.temp)/2} out of 100.""")
+                            On average, people gave the other party a {sum(outgroup.temp)/2} out of 100.""")
 
         row3sep1, row3col1, row3sep2, row3col2, row3sep3 = st.columns((.1, 1.5, .2, 1.5, .1))  
         with row3sep1:
@@ -194,6 +198,8 @@ if agree:
         
         with row3sep3:
             st.markdown("")
+        
+        st.markdown("")
         st.markdown("***")
         st.markdown("""Thank you for going through this analysis. 
                         If you have any comments, ideas or feedback, please reach out to me on Twitter [@YaraKyrychenko](https://twitter.com/YaraKyrychenko).""")
