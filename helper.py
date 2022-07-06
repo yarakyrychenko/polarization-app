@@ -16,7 +16,7 @@ def make_dataframe(executed_query):
     df = df.drop(["id","twitter_username","username_mine"],axis=1)
     return df
 
-def make_v_wordcloud(all_dem_words,all_rep_words):
+def make_v_wordcloud(all_rep_words,all_dem_words):
     import collections
 
     all_dem_words = ", ".join(all_dem_words)
@@ -41,7 +41,7 @@ def make_v_wordcloud(all_dem_words,all_rep_words):
                     set_colors=['red', 'blue'],
                     set_edgecolors=['w', 'w'],
                     alpha = .2,
-                    ax=ax, set_labels=['Democrats about Republicans', 'Republicans about Democrats'])
+                    ax=ax, set_labels=label_list)
                     #word_to_frequency=freq_dict )
     # add color
     #v.get_patch_by_id('10').set_color('red')
@@ -51,7 +51,7 @@ def make_v_wordcloud(all_dem_words,all_rep_words):
     v.get_patch_by_id('11').set_color('purple')
     v.get_patch_by_id('11').set_alpha(0.2)
     
-    return fig
+    return fig, [item[0] for item in counter.most_common(5)]
 
 def make_twitter_button():
     import st.components.v1 as components

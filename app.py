@@ -25,7 +25,7 @@ st.set_page_config(
          'About': "# See how the two parties view each other." }
 )
 
-sns.set(rc={'figure.figsize':(10,4)})
+sns.set(rc={'figure.figsize':(6,4)})
 
 lottie_tweet = load_lottieurl('https://assets3.lottiefiles.com/packages/lf20_t2xm9bsw.json')
 st_lottie(lottie_tweet, speed=1, height=200, key="initial")
@@ -123,11 +123,12 @@ if agree:
         with st.spinner(text="Making graphs..."):
             all_dem_words = list(st.session_state.df.query("party=='Republican'").dem_words)
             all_rep_words = list(st.session_state.df.query("party=='Democrat'").rep_words)
-            outgroup_cloud = make_v_wordcloud(all_dem_words,all_rep_words)   
+            outgroup_cloud, most_common_out = make_v_wordcloud(all_rep_words,all_dem_words, ['Democrats about Republicans', 'Republicans about Democrats'])   
 
             all_dem_words = list(st.session_state.df.query("party=='Democrat'").dem_words)
             all_rep_words = list(st.session_state.df.query("party=='Republican'").rep_words)
-            ingroup_cloud = make_v_wordcloud(all_dem_words,all_rep_words) 
+            ingroup_cloud, most_common_in = make_v_wordcloud(all_rep_words,all_dem_words,['Republicans about Republicans','Democrats about Democrats']) 
+
             group_means = st.session_state.df.groupby("party").agg('mean') 
             outgroup = pd.DataFrame({'party':['Republicans View Democrats', 'Democrats View Republicans'], 
                                 'temp': [group_means.loc['Republican','dem_temp'],group_means.loc['Democrat','rep_temp']] })
@@ -138,21 +139,21 @@ if agree:
 
         with row1col1:
             st.subheader("Words about **Own** Party")
-            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe **their** party with the words below. 
-                            Do the words seem negative or positive?""")
+            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe **their** party with the words below.
+                The most common words describing own party were {', '.join(most_common_in)}.""")
             st.pyplot(ingroup_cloud)
 
         with row1col2:
             st.subheader("Words about **Other** Party")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe the **other** party with the words below. 
-                            Do the words seem negative or positive?""")
+                The most common words describing the other party were {', '.join(most_common_out)}.""")
             st.pyplot(outgroup_cloud)
 
         row2col1, row2col2 = st.columns(2)  
         with row2col1:
             st.subheader("Feelings Towards Ingroup")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards their own party.
-                            Does it seem like people like their parties?""") 
+                            On average, people gave their own party a {sum(ingroup.temp)/2} out of 100.""") 
             fig, axiz = plt.subplots()
             sns.barplot(x="party", y="temp", data=ingroup, ax=axiz, palette=["r",'b'])
             axiz.set_xlabel('Party')
@@ -162,7 +163,7 @@ if agree:
         with row2col2:
             st.subheader("Feelings Towards Outgroup")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the other party. 
-                        Does it seem like people feel cold towards the other party?""") 
+                            On average, people gave their own party a {sum(outgroup.temp)/2} out of 100.""")
             fig, axiz = plt.subplots()
             sns.barplot(x="party", y="temp", data=outgroup, ax=axiz, palette=["r",'b'])
             axiz.set_xlabel('Party')
