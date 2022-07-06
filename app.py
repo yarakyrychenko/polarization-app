@@ -169,7 +169,7 @@ if agree:
             #axiz.set_xticklabels(labels=ingroup["party"],rotation=45)
             #axiz.set(ylim=(0, 100))
             #st.pyplot(fig)
-            st.bar_chart(ingroup)
+            st.bar_chart(ingroup[["party","temp"]])
 
         with row2col2:
             st.subheader("Feelings Towards Outgroup")
