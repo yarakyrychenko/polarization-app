@@ -95,7 +95,7 @@ if agree:
         st.session_state.party = form.radio(
                      "How do you identify?",
                     ('Independent','Republican', 'Democrat')) 
-        st.session_state.disable = True if st.session_state.D5 == "" else False
+        st.session_state.disable = True if dem_words[-2:] == ", " else False
  
         form.warning("Please fill out every field of the form to enable the submit button.")              
         st.session_state.submitted = form.button("Submit", disabled=st.session_state.disable)
