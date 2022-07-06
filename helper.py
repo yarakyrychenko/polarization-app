@@ -16,11 +16,8 @@ def make_dataframe(executed_query):
     df = df.drop(["id","twitter_username","username_mine"],axis=1)
     return df
 
-def make_v_wordcloud(data):
+def make_v_wordcloud(all_dem_words,all_rep_words):
     import collections
-
-    all_dem_words = list(data.query("party=='Republican'").dem_words)
-    all_rep_words = list(data.query("party=='Democrat'").rep_words)
 
     all_dem_words = ", ".join(all_dem_words)
     all_rep_words = ", ".join(all_rep_words)

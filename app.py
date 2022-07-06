@@ -7,7 +7,7 @@ from uuid import uuid4
 import seaborn as sns 
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import streamlit.components.v1 as components
 from streamlit_lottie import st_lottie
 import requests
 
@@ -43,7 +43,7 @@ with placeholder.container():
     with st.expander("Consent", expanded=True):
         st.markdown("""
            By submitting the form below you agree to your data being used for research. 
-           Your twitter username will be stored in a private google sheet and will not be shared with anyone (unless extraordinary circumstances force us to share it). 
+           Your twitter handle will be stored in a private google sheet and will not be shared with anyone (unless extraordinary circumstances force us to share it). 
            You can ask for your data to be deleted by emailing us with an ID number you'll be issued after submitting the form. 
            """)
         agree = st.checkbox("I understand and consent.")
@@ -53,7 +53,7 @@ if agree:
     with st.expander("Consent", expanded=False):
         st.markdown("""
            By submitting the form below you agree to your data being used for research. 
-           Your twitter username will be stored in a private google sheet and will not be shared with anyone (unless extraordinary circumstances force us to share it). 
+           Your twitter handle will be stored in a private google sheet and will not be shared with anyone (unless extraordinary circumstances force us to share it). 
            You can ask for your data to be deleted by emailing us with an app ID number you'll be issued after submitting the form. 
            """)
         st.markdown("You have consented.")
@@ -66,10 +66,10 @@ if agree:
     form_place = st.empty()
     with form_place.container():
         form = st.expander("Form",expanded=True)
-        form.text_input("Enter a twitter username to begin", key="name", placeholder="e.g. POTUS", value="")
+        form.text_input("Enter a twitter handle", key="name", placeholder="e.g. @POTUS", value="")
         st.session_state.username_mine = form.radio(
             "I confirm that",
-            ('This username belongs to me.', 'This username is belongs to someone else.')) 
+            ('This handle belongs to me.', 'This handle belongs to someone else.')) 
 
         dem_words, rep_words = [], []
         form.markdown("#### Please add five words that describe Democrats best")
@@ -110,7 +110,7 @@ if agree:
                                         }
                         )
 
-            insert_user_data(st.session_state.conn, st.secrets["private_gsheets_url"])
+            #insert_user_data(st.session_state.conn, st.secrets["private_gsheets_url"])
 
     if st.session_state.submitted and 'df' not in st.session_state:
         with st.spinner(text="Retrieving data..."):
@@ -119,7 +119,60 @@ if agree:
             st.session_state.df = make_dataframe(st.session_state.conn.execute(query))
 
     if st.session_state.submitted and 'df' in st.session_state:    
-        import streamlit.components.v1 as components
+
+        with st.spinner(text="Making graphs..."):
+            all_dem_words = list(st.session_state.query("party=='Republican'").dem_words)
+            all_rep_words = list(st.session_state.query("party=='Democrat'").rep_words)
+            outgroup_cloud = make_v_wordcloud(all_dem_words,all_rep_words)   
+
+            all_dem_words = list(st.session_state.query("party=='Democrat'").dem_words)
+            all_rep_words = list(st.session_state.query("party=='Republican'").rep_words)
+            ingroup_cloud = make_v_wordcloud(all_dem_words,all_rep_words) 
+            group_means = st.session_state.df.groupby("party").agg('mean') 
+            outgroup = pd.DataFrame({'party':['Republicans View Democrats', 'Democrats View Republicans'], 
+                                'temp': [group_means.loc['Republican','dem_temp'],group_means.loc['Democrat','rep_temp']] })
+            ingroup = pd.DataFrame({'party':['Republicans View Republicans', 'Democrats View Democrats'], 
+                                'temp': [group_means.loc['Republican','rep_temp'], group_means.loc['Democrat','dem_temp']] })
+    
+        row1col1, row1col2 = st.columns(2)  
+
+        with row1col1:
+            st.subheader("Words about **Own** Party")
+            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe **their** party with the words below. 
+                            Do the words seem negative or positive?""")
+            st.pyplot(ingroup_cloud)
+
+        with row1col2:
+            st.subheader("Words about **Other** Party")
+            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe the **other** party with the words below. 
+                            Do the words seem negative or positive?""")
+            st.pyplot(outgroup_cloud)
+
+        row2col1, row2col2 = st.columns(2)  
+        with row2col1:
+            st.subheader("Feelings Towards Ingroup")
+            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards their own party.
+                            Does it seem like people like their parties?""") 
+            fig, axiz = plt.subplots()
+            sns.barplot(x="party", y="temp", data=ingroup, ax=axiz, palette=["r",'b'])
+            axiz.set_xlabel('Party')
+            axiz.set_ylabel('Feeling Thermometer Score (out of 100)')
+            st.pyplot(fig)
+
+        with row2col2:
+            st.subheader("Feelings Towards Outgroup")
+            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the other party. 
+                        Does it seem like people feel cold towards the other party?""") 
+            fig, axiz = plt.subplots()
+            sns.barplot(x="party", y="temp", data=outgroup, ax=axiz, palette=["r",'b'])
+            axiz.set_xlabel('Party')
+            axiz.set_ylabel('Feeling Thermometer Score (out of 100)')
+            st.pyplot(fig)
+        
+        st.markdown("***")
+        st.markdown("""Thank you for going through this analysis. 
+                        If you have any comments, ideas or feedback, please reach out to me on Twitter [@YaraKyrychenko](https://twitter.com/YaraKyrychenko).""")
+        st.markdown("Tweet about this app:")
         components.html(
             """
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" 
@@ -128,38 +181,11 @@ if agree:
             data-show-count="false">
             data-size="Large" 
             data-hashtags="polarization,usa"
-            Tweet about this website
+            Tweet
             </a>
             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
             """
                    )
-        
-
-        with st.spinner(text="Making the graphs..."):
-            figure = make_v_wordcloud(st.session_state.df)   
-            group_means = st.session_state.df.groupby("party").agg('mean') 
-            group_df = pd.DataFrame({'party':['Republicans', 'Democrats', 'Republicans', 'Democrats'], 
-                                'Towards': ['Democrats', 'Republicans', 'Republicans', 'Democrats'],
-                                'temp': [group_means.loc['Republican','dem_temp'],group_means.loc['Democrat','rep_temp'],
-                                group_means.loc['Republican','rep_temp'], group_means.loc['Democrat','dem_temp']] })
-    
-        col1, col2 = st.columns(2)  
-
-        with col1:
-            st.subheader("Describing the **Other** Party")
-            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe the **other** with the words above. 
-                            Do the words seem negative or positive?""")
-            st.pyplot(figure)
-
-        with col2:
-            st.subheader("Feeling Thermometer")
-            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the each party. 
-                        Does it seem like we prefer our own party and feel cold towards the other party?""") 
-            fig, axiz = plt.subplots()
-            sns.barplot(x="party", y="temp", hue="Towards", data=group_df, ax=axiz, palette=["r",'b'])
-            axiz.set_xlabel('Party')
-            axiz.set_ylabel('Feeling Thermometer Score (out of 100)')
-            st.pyplot(fig)
             
 
 
