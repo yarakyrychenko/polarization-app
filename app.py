@@ -162,7 +162,7 @@ if agree:
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards their own party.
                             On average, people gave their own party a {sum(ingroup.temp)/2} out of 100.""") 
             fig1, axiz1 = plt.subplots()
-            sns.barplot(x="party", y="temp", data=ingroup, ax=axiz, palette=["lightcoral","cornflowerblue"])
+            sns.barplot(x="party", y="temp", data=ingroup, ax=axiz1, palette=["lightcoral","cornflowerblue"])
             axiz1.set_ylabel('Feeling Thermometer Score')
             axiz1.set_yticklabels(range(0,101,20))
             axiz1.set_xlabel('')
@@ -175,7 +175,7 @@ if agree:
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the other party. 
                             On average, people gave their own party a {sum(outgroup.temp)/2} out of 100.""")
             fig2, axiz2 = plt.subplots()
-            sns.barplot(x="party", y="temp", data=outgroup, ax=axiz, palette=["lightcoral","cornflowerblue"])
+            sns.barplot(x="party", y="temp", data=outgroup, ax=axiz2, palette=["lightcoral","cornflowerblue"])
             axiz2.set_ylabel('Feeling Thermometer Score')
             axiz2.set_xlabel('')
             axiz2.set_yticklabels(range(0,101,20))
