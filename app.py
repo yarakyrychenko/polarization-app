@@ -175,12 +175,11 @@ if agree:
             fig1, axiz1 = plt.subplots()
             sns.barplot(x="party", y="temp", data=ingroup, ax=axiz1, palette=["lightcoral","cornflowerblue"])
             axiz1.set_ylabel('Feeling Thermometer Score')
-            axiz1.set_yticklabels(range(0,101,5))
+            axiz1.set_yticklabels(range(0, 100, 5))
             axiz1.set_xlabel('')
             axiz1.set_xticklabels(labels=ingroup["party"],rotation=45)
             axiz1.set(ylim=(0, 100))
             st.pyplot(fig1) 
-            st.pyplot(fig1)
         with row3sep2:
             st.markdown("")
         with row3col2:
@@ -188,10 +187,9 @@ if agree:
             sns.barplot(x="party", y="temp", data=outgroup, ax=axiz2, palette=["lightcoral","cornflowerblue"])
             axiz2.set_ylabel('Feeling Thermometer Score')
             axiz2.set_xlabel('')
-            axiz2.set_yticklabels(range(0,101,5))
+            axiz2.set_yticklabels(range(0,100,5))
             axiz2.set_xticklabels(labels=outgroup["party"],rotation=45)
             axiz2.set(ylim=(0, 100))
-            st.pyplot(fig2)
             st.pyplot(fig2)
         
         with row3sep3:
