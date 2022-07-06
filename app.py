@@ -24,6 +24,7 @@ st.set_page_config(
          'About': "# See how the two parties view each other." }
 )
 
+sns.set_style("whitegrid")
 sns.set(rc={'figure.figsize':(6,4)})
 
 lottie_tweet = load_lottieurl('https://assets3.lottiefiles.com/packages/lf20_t2xm9bsw.json')
@@ -105,8 +106,7 @@ if agree:
     with st.expander("Thank you",expanded=True):
         if st.session_state.submitted:
             st.session_state.id = datetime.now().strftime('%Y%m-%d%H-%M-') + str(uuid4())
-            st.success("Thanks for submitting your answers!")
-            st.markdown(f"Your app ID is {st.session_state.id}. Email us with it if you want your answers deleted.") 
+            st.markdown(f"Thanks for submitting your answers! Your app ID is {st.session_state.id}. Email us with it if you want your answers deleted.") 
                         
             st.session_state.conn = connect(":memory:", 
                             adapter_kwargs = {
@@ -160,8 +160,10 @@ if agree:
             st.subheader("Feelings Towards Ingroup")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards their own party.
                             On average, people gave their own party a {sum(ingroup.temp)/2} out of 100.""") 
-            fig = plt.stem([0.2,.4], ingroup["temp"], label=ingroup["party"])
-            #axiz.set_ylabel('Feeling Thermometer Score')
+            fig, axiz = plt.subplots()
+            sns.barplot(x="party", y="temp", data=outgroup, ax=axiz, palette=["lightcoral","cornflowerblue"])
+            axiz.set_ylabel('Feeling Thermometer Score')
+            axiz.set(ylim=(0, 100))
             st.pyplot(fig)
 
         with row2col2:
@@ -169,8 +171,9 @@ if agree:
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the other party. 
                             On average, people gave their own party a {sum(outgroup.temp)/2} out of 100.""")
             fig, axiz = plt.subplots()
-            sns.barplot(x="party", y="temp", data=outgroup, ax=axiz, palette=["r",'b'],saturation=.2)
+            sns.barplot(x="party", y="temp", data=outgroup, ax=axiz, palette=["lightcoral","cornflowerblue"])
             axiz.set_ylabel('Feeling Thermometer Score')
+            axiz.set(ylim=(0, 100))
             st.pyplot(fig)
         
         st.markdown("***")

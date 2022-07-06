@@ -38,9 +38,8 @@ def make_v_wordcloud(all_rep_words, all_dem_words, label_list=["Republican","Dem
 
     #ax.set_title('Words People Think Describe The Other Party', fontsize=20)
     v = venn2_wordcloud([set(all_rep_words), set(all_dem_words)],
-                    set_colors=['red', 'blue'],
+                    set_colors=['lightcoral', 'cornflowerblue'],
                     set_edgecolors=['w', 'w'],
-                    alpha = .2,
                     ax=ax, set_labels=label_list)
                     #word_to_frequency=freq_dict )
     # add color
