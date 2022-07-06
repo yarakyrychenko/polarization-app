@@ -31,7 +31,7 @@ sns.set_style("whitegrid")
 lottie_tweet = load_lottieurl('https://assets3.lottiefiles.com/packages/lf20_t2xm9bsw.json')
 st_lottie(lottie_tweet, speed=1, height=200, key="initial")
 
-row0sep1, row0col1, row0sep2 = st.columns(.1,3.2,.1)
+row0sep1, row0col1, row0sep2 = st.columns((.1,3.2,.1))
 with row0sep1:
     st.markdown("")
 
