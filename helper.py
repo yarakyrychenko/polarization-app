@@ -60,6 +60,6 @@ def make_barplot(data):
     axiz1.set_ylabel('Feeling Thermometer Score')
     axiz1.set_yticks(range(0,100,5))
     axiz1.set_xlabel('')
-    axiz1.set_xticklabels(labels=ingroup["party"])
+    axiz1.set_xticklabels(labels=data["party"])
     axiz1.set(ylim=(0, 100))
     return fig
