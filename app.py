@@ -2,18 +2,12 @@ import streamlit as st
 from shillelagh.backends.apsw.db import connect
 import streamlit.components.v1 as components
 from streamlit_lottie import st_lottie
-import requests
 from datetime import datetime
 from uuid import uuid4
 import seaborn as sns 
 import pandas as pd
-from helper import *
+from helper import load_lottieurl, insert_user_data, make_dataframe, make_v_wordcloud, make_barplot
 
-def load_lottieurl(url):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
 
 st.set_page_config(
     page_title="🇺🇸 Red and Blue 🇺🇸",

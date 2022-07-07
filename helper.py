@@ -4,7 +4,14 @@ import collections
 import pandas as pd
 import seaborn as sns 
 import matplotlib.pyplot as plt
+from matplotlib_venn_wordcloud import venn2_wordcloud
+import requests
 
+def load_lottieurl(url):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
 
 def insert_user_data(conn, sheet_url):
     insert = f"""
@@ -33,9 +40,6 @@ def make_v_wordcloud(all_rep_words, all_dem_words, label_list=["Republican","Dem
     all_dem_words = [ word for word in all_dem_words if word in list(freq_dict.keys()) ]
     all_rep_words = [ word for word in all_rep_words if word in list(freq_dict.keys()) ]
 
-    import matplotlib.pyplot as plt
-    from matplotlib_venn_wordcloud import venn2_wordcloud
-
     fig, ax = plt.subplots(figsize=(10,10))
 
     #ax.set_title('Words People Think Describe The Other Party', fontsize=20)
@@ -63,3 +67,4 @@ def make_barplot(data):
     axiz1.set_xticklabels(labels=data["party"])
     axiz1.set(ylim=(0, 100))
     return fig
+    
