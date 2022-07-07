@@ -118,7 +118,7 @@ if agree:
                                         }
                         )
 
-                #insert_user_data(st.session_state.conn, st.secrets["private_gsheets_url"])
+                insert_user_data(st.session_state.conn, st.secrets["private_gsheets_url"])
 
     with formsep2:
         st.markdown("")
