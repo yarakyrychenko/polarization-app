@@ -1,14 +1,13 @@
 import streamlit as st
 from shillelagh.backends.apsw.db import connect
-from helper import *
+import streamlit.components.v1 as components
+from streamlit_lottie import st_lottie
+import requests
 from datetime import datetime
 from uuid import uuid4
 import seaborn as sns 
 import pandas as pd
-import matplotlib.pyplot as plt
-import streamlit.components.v1 as components
-from streamlit_lottie import st_lottie
-import requests
+from helper import *
 
 def load_lottieurl(url):
     r = requests.get(url)
@@ -17,13 +16,12 @@ def load_lottieurl(url):
     return r.json()
 
 st.set_page_config(
-    page_title="🇺🇸 Red and Blue",
+    page_title="🇺🇸 Red and Blue 🇺🇸",
     page_icon="🇺🇸",
     layout="wide",
     menu_items={
          'About': "# See how the two parties view each other." }
 )
-
 
 sns.set(rc={'figure.figsize':(4,5)})
 sns.set_style("whitegrid")
@@ -116,7 +114,7 @@ if agree:
         with st.expander("Form Submitted",expanded=True):
             if st.session_state.submitted:
                 st.session_state.id = datetime.now().strftime('%Y%m-%d%H-%M-') + str(uuid4())
-                st.markdown(f"Thanks for submitting your answers! Your app ID is {st.session_state.id}. Email us with it if you want your answers deleted.") 
+                st.markdown(f"Thanks for submitting your answers! Your app ID is **{st.session_state.id}**. Email us with it if you want your answers deleted.") 
                         
                 st.session_state.conn = connect(":memory:", 
                             adapter_kwargs = {
@@ -127,6 +125,7 @@ if agree:
                         )
 
                 #insert_user_data(st.session_state.conn, st.secrets["private_gsheets_url"])
+
     with formsep2:
         st.markdown("")
 
@@ -159,8 +158,9 @@ if agree:
         with textsep1:
             st.markdown("")
         with textcol1:
-            st.markdown("""Many researchers find that political polarization has increased in the US over the last two decades. 
-                In particular, studies consistently find that **affective polarization**, i.e., favorable feelings towards own party (the ingroup) and dislike towards the other party (the outgroup), has grown. 
+            st.markdown("""
+                Many researchers find that political polarization has increased in the US over the last two decades. 
+                In particular, studies consistently show that **affective polarization**, i.e., favorable feelings towards own party (the ingroup) and dislike towards the other party (the outgroup), has grown. 
                 This website explores how those who identify with the Republican or Democratic parties describe and feel about the parties.
                 """)  
         with textsep2:
@@ -195,15 +195,9 @@ if agree:
             st.markdown("")
         with row2col1:
             st.subheader("Feelings Towards Ingroup")
-            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards their own party.
-                            On average, people gave their own party a {sum(ingroup.temp)/2} out of 100.""") 
-            fig1, axiz1 = plt.subplots()
-            sns.barplot(x="party", y="temp", data=ingroup, ax=axiz1, palette=["lightcoral","cornflowerblue"])
-            axiz1.set_ylabel('Feeling Thermometer Score')
-            axiz1.set_yticks(range(0,100,5))
-            axiz1.set_xlabel('')
-            axiz1.set_xticklabels(labels=ingroup["party"])
-            axiz1.set(ylim=(0, 100))
+            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards **their** party.
+                            On average, people gave their own party a **{sum(ingroup.temp)/2}** out of 100.""")
+            fig1 = make_barplot(ingroup)
             st.pyplot(fig1) 
 
         with row2sep2:
@@ -211,16 +205,10 @@ if agree:
 
         with row2col2:
             st.subheader("Feelings Towards Outgroup")
-            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the other party. 
-                            On average, people gave the other party a {sum(outgroup.temp)/2} out of 100.""")
-            fig2, axiz2 = plt.subplots()
-            sns.barplot(x="party", y="temp", data=outgroup, ax=axiz2, palette=["lightcoral","cornflowerblue"])
-            axiz2.set_ylabel('Feeling Thermometer Score')
-            axiz2.set_xlabel('')
-            axiz2.set_yticks(range(0,100,5))
-            axiz2.set_xticklabels(labels=outgroup["party"])
-            axiz2.set(ylim=(0, 100))
-            st.pyplot(fig2)
+            st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the **other** party. 
+                            On average, people gave the other party a **{sum(outgroup.temp)/2}** out of 100.""")
+            fig2 = make_barplot(outgroup)
+            st.pyplot(fig2)                     
 
         with row2sep3:
             st.markdown("")
@@ -228,16 +216,17 @@ if agree:
         
         st.markdown("")
         st.markdown("***")
-        st.markdown("""Thank you for going through this analysis. 
-                        If you have any comments, ideas or feedback, please reach out to me on Twitter [@YaraKyrychenko](https://twitter.com/YaraKyrychenko).""")
+        st.markdown("""Thank you for going through this analysis. Please share this app with others! 
+                        If you have any comments, ideas or feedback, please reach out to me on Twitter [@YaraKyrychenko](https://twitter.com/YaraKyrychenko).
+                        """)
         components.html(
             """
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" 
-            data-text="Check out this app about polarization in the US 🇺🇸🔥" 
+            data-text="Check out this app about the US parties 🇺🇸🔥" 
             data-url="https://share.streamlit.io/yarakyrychenko/van-bavel-app/main/app.py"
             data-show-count="false">
             data-size="Large" 
-            data-hashtags="polarization,usa"
+            data-hashtags="republicans,democrats,usa"
             Tweet
             </a>
             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

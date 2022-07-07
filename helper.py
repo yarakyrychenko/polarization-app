@@ -2,6 +2,8 @@ import streamlit as st
 from shillelagh.backends.apsw.db import connect
 import collections
 import pandas as pd
+import seaborn as sns 
+import matplotlib.pyplot as plt
 
 
 def insert_user_data(conn, sheet_url):
@@ -52,18 +54,12 @@ def make_v_wordcloud(all_rep_words, all_dem_words, label_list=["Republican","Dem
     
     return fig, [item[0] for item in counter.most_common(5)]
 
-def make_twitter_button():
-    import st.components.v1 as components
-    return components.html(
-            """
-            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
-            data-text="Check out this app about the American politics 🇺🇸"
-            data-url="https://share.streamlit.io/yarakyrychenko/van-bavel-app/main/app.py"
-            data-show-count="false">
-            data-size="Large"
-            data-hashtags="polarization,usa"
-            Tweet
-            </a>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            """
-            )
+def make_barplot(data):
+    fig, axiz1 = plt.subplots()
+    sns.barplot(x="party", y="temp", data=data, ax=axiz1, palette=["lightcoral","cornflowerblue"])
+    axiz1.set_ylabel('Feeling Thermometer Score')
+    axiz1.set_yticks(range(0,100,5))
+    axiz1.set_xlabel('')
+    axiz1.set_xticklabels(labels=ingroup["party"])
+    axiz1.set(ylim=(0, 100))
+    return fig
