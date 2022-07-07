@@ -17,8 +17,8 @@ def load_lottieurl(url):
     return r.json()
 
 st.set_page_config(
-    page_title="🇺🇸🔥 The US. Polarized.",
-    page_icon="🔥",
+    page_title="🇺🇸 Red and Blue",
+    page_icon="🇺🇸",
     layout="wide",
     menu_items={
          'About': "# See how the two parties view each other." }
@@ -37,12 +37,8 @@ with row0sep1:
     st.markdown("")
 
 with row0col1:
-    st.title("🇺🇸🔥 The US. Polarized.") 
-    st.subheader("""Discover what the two parties think about each other.""")
-    st.markdown("""Many researchers find that political polarization has increased in the US over the last two decades. 
-                In particular, studies consistently find that **affective polarization**, i.e., favorable feelings towards own party (the ingroup) and dislike towards the other party (the outgroup), has grown. 
-                This website explores how those who identify with the Republican or Democratic parties describe and feel about the parties.
-                """)    
+    st.title("🇺🇸 Red and Blue 🇺🇸") 
+    st.subheader("""Discover what the two parties think about each other.""")  
 
     placeholder = st.empty()
     with placeholder.container():
@@ -158,6 +154,18 @@ if agree:
                                 'temp': [group_means.loc['Republican','rep_temp'], group_means.loc['Democrat','dem_temp']] })
         
 
+        st.markdown("")
+        textsep1, textcol1, textsep2 = st.columns(st.session_state.one_columns_params)
+        with textsep1:
+            st.markdown("")
+        with textcol1:
+            st.markdown("""Many researchers find that political polarization has increased in the US over the last two decades. 
+                In particular, studies consistently find that **affective polarization**, i.e., favorable feelings towards own party (the ingroup) and dislike towards the other party (the outgroup), has grown. 
+                This website explores how those who identify with the Republican or Democratic parties describe and feel about the parties.
+                """)  
+        with textsep2:
+            st.markdown("")
+        
         st.markdown("")
     
         row1sep1, row1col1, row1sep2, row1col2, row1sep3 = st.columns(st.session_state.two_columns_params)
