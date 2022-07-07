@@ -37,8 +37,8 @@ with row0sep1:
     st.markdown("")
 
 with row0col1:
-    st.title("<center> 🇺🇸 Red and Blue 🇺🇸 </center>") 
-    st.subheader("""<center> Discover what the two parties think about each other </center>""")  
+    st.markdown("<h1 style='text-align: center;'> 🇺🇸 Red and Blue 🇺🇸 </h1>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center;'>  Discover what the two parties think about each other </h2>", unsafe_allow_html=True)
 
     placeholder = st.empty()
     with placeholder.container():
