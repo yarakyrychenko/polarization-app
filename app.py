@@ -38,7 +38,7 @@ with row0sep1:
 
 with row0col1:
     st.markdown("<h1 style='text-align: center;'> 🇺🇸 Red and Blue 🇺🇸 </h1>", unsafe_allow_html=True)
-    st.markdown("<h2 style='text-align: center;'>  Discover what the two parties think about each other </h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center;'>  discover what the two parties think about each other </h2>", unsafe_allow_html=True)
 
     placeholder = st.empty()
     with placeholder.container():
