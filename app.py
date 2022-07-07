@@ -152,8 +152,8 @@ if agree:
             ingroup_cloud, most_common_in = make_v_wordcloud(all_rep_words,all_dem_words,['Republicans\nView\nRepublicans','Democrats\nView\nDemocrats']) 
 
             group_means = st.session_state.df.groupby("party").agg('mean') 
-            outgroup = pd.DataFrame({'party':['Republicans\nView\nDemocrats', 'Democrats\nView\nRepublicans'], 
-                                'temp': [group_means.loc['Republican','dem_temp'],group_means.loc['Democrat','rep_temp']] })
+            outgroup = pd.DataFrame({'party':['Democrats\nView\nRepublicans', 'Republicans\nView\nDemocrats'], 
+                                'temp': [group_means.loc['Democrat','rep_temp'], group_means.loc['Republican','dem_temp']] })
             ingroup = pd.DataFrame({'party':['Republicans\nView\nRepublicans', 'Democrats\nView\nDemocrats'], 
                                 'temp': [group_means.loc['Republican','rep_temp'], group_means.loc['Democrat','dem_temp']] })
         
