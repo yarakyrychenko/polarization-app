@@ -151,6 +151,9 @@ if agree:
                                 'temp': [group_means.loc['Democrat','rep_temp'], group_means.loc['Republican','dem_temp']] })
             ingroup = pd.DataFrame({'party':['Republicans\nView\nRepublicans', 'Democrats\nView\nDemocrats'], 
                                 'temp': [group_means.loc['Republican','rep_temp'], group_means.loc['Democrat','dem_temp']] })
+            fig1 = make_barplot(ingroup)
+            fig2 = make_barplot(outgroup)
+
         
 
         st.markdown("")
@@ -197,7 +200,6 @@ if agree:
             st.subheader("Feelings Towards Ingroup")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards **their** party.
                             On average, people gave their own party a **{sum(ingroup.temp)/2}** out of 100.""")
-            fig1 = make_barplot(ingroup)
             st.pyplot(fig1) 
 
         with row2sep2:
@@ -207,7 +209,6 @@ if agree:
             st.subheader("Feelings Towards Outgroup")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the **other** party. 
                             On average, people gave the other party a **{sum(outgroup.temp)/2}** out of 100.""")
-            fig2 = make_barplot(outgroup)
             st.pyplot(fig2)                     
 
         with row2sep3:
