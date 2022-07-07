@@ -131,32 +131,32 @@ if agree:
                         )
 
                 #insert_user_data(st.session_state.conn, st.secrets["private_gsheets_url"])
+    with formsep2:
+        st.markdown("")
 
-        if st.session_state.submitted and 'df' not in st.session_state:
-            with st.spinner(text="Retrieving data..."):
-                sheet_url = st.secrets["private_gsheets_url"]
-                query = f'SELECT * FROM "{sheet_url}"'
-                st.session_state.df = make_dataframe(st.session_state.conn.execute(query))
+    if st.session_state.submitted and 'df' not in st.session_state:
+        with st.spinner(text="Retrieving data..."):
+            sheet_url = st.secrets["private_gsheets_url"]
+            query = f'SELECT * FROM "{sheet_url}"'
+            st.session_state.df = make_dataframe(st.session_state.conn.execute(query))
 
-        if st.session_state.submitted and 'df' in st.session_state:    
+    if st.session_state.submitted and 'df' in st.session_state:    
 
-            with st.spinner(text="Making graphs..."):
-                all_dem_words = list(st.session_state.df.query("party=='Republican'").dem_words)
-                all_rep_words = list(st.session_state.df.query("party=='Democrat'").rep_words)
-                outgroup_cloud, most_common_out = make_v_wordcloud(all_rep_words,all_dem_words, ['Democrats\nView\nRepublicans', 'Republicans\nView\nDemocrats'])   
+        with st.spinner(text="Making graphs..."):
+            all_dem_words = list(st.session_state.df.query("party=='Republican'").dem_words)
+            all_rep_words = list(st.session_state.df.query("party=='Democrat'").rep_words)
+            outgroup_cloud, most_common_out = make_v_wordcloud(all_rep_words,all_dem_words, ['Democrats\nView\nRepublicans', 'Republicans\nView\nDemocrats'])   
 
-                all_dem_words = list(st.session_state.df.query("party=='Democrat'").dem_words)
-                all_rep_words = list(st.session_state.df.query("party=='Republican'").rep_words)
-                ingroup_cloud, most_common_in = make_v_wordcloud(all_rep_words,all_dem_words,['Republicans\nView\nRepublicans','Democrats\nView\nDemocrats']) 
+            all_dem_words = list(st.session_state.df.query("party=='Democrat'").dem_words)
+            all_rep_words = list(st.session_state.df.query("party=='Republican'").rep_words)
+            ingroup_cloud, most_common_in = make_v_wordcloud(all_rep_words,all_dem_words,['Republicans\nView\nRepublicans','Democrats\nView\nDemocrats']) 
 
-                group_means = st.session_state.df.groupby("party").agg('mean') 
-                outgroup = pd.DataFrame({'party':['Republicans\nView\nDemocrats', 'Democrats\nView\nRepublicans'], 
+            group_means = st.session_state.df.groupby("party").agg('mean') 
+            outgroup = pd.DataFrame({'party':['Republicans\nView\nDemocrats', 'Democrats\nView\nRepublicans'], 
                                 'temp': [group_means.loc['Republican','dem_temp'],group_means.loc['Democrat','rep_temp']] })
-                ingroup = pd.DataFrame({'party':['Republicans\nView\nRepublicans', 'Democrats\nView\nDemocrats'], 
+            ingroup = pd.DataFrame({'party':['Republicans\nView\nRepublicans', 'Democrats\nView\nDemocrats'], 
                                 'temp': [group_means.loc['Republican','rep_temp'], group_means.loc['Democrat','dem_temp']] })
         
-        with formsep2:
-            st.markdown("")
 
         st.markdown("")
     
