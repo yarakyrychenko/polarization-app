@@ -37,8 +37,8 @@ with row0sep1:
     st.markdown("")
 
 with row0col1:
-    st.title("🇺🇸 Red and Blue 🇺🇸") 
-    st.subheader("""Discover what the two parties think about each other.""")  
+    st.title("<center> 🇺🇸 Red and Blue 🇺🇸 </center>") 
+    st.subheader("""<center> Discover what the two parties think about each other </center>""")  
 
     placeholder = st.empty()
     with placeholder.container():
