@@ -108,7 +108,7 @@ if agree:
         with st.expander("Form Submitted",expanded=True):
             if st.session_state.submitted:
                 st.session_state.id = datetime.now().strftime('%Y%m-%d%H-%M-') + str(uuid4())
-                st.markdown(f"Thanks for submitting your answers! Your app ID is **{st.session_state.id}**. Email us with it if you want your answers deleted.") 
+                st.markdown(f"Thanks for submitting your answers! Your app ID is **{st.session_state.id}**. [Email me](mailto:yara@nyu.edu) with it if you want your answers deleted.") 
                         
                 st.session_state.conn = connect(":memory:", 
                             adapter_kwargs = {
