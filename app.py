@@ -193,7 +193,7 @@ if agree:
         with row2col1:
             st.subheader("Feelings Towards Ingroup")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards **their** party.
-                            On average, people gave their own party a **{sum(ingroup.temp)/2}** out of 100.""")
+                            On average, people gave their own party a **{round(sum(ingroup.temp)/2,2)}** out of 100.""")
             st.pyplot(fig1) 
 
         with row2sep2:
@@ -202,7 +202,7 @@ if agree:
         with row2col2:
             st.subheader("Feelings Towards Outgroup")
             st.markdown(f"""{str(len(st.session_state.df))} people who filled out this app describe their feelings towards the **other** party. 
-                            On average, people gave the other party a **{sum(outgroup.temp)/2}** out of 100.""")
+                            On average, people gave the other party a **{round(sum(outgroup.temp)/2,2)}** out of 100.""")
             st.pyplot(fig2)                     
 
         with row2sep3:
