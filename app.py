@@ -59,7 +59,7 @@ st.session_state.submitted = False
 st.session_state.disable = True 
 st.session_state.two_columns_params = (.1, 1.5, .2, 1.5, .1)
 
-if agree:
+if False: #agree:
     formsep1, formcol1, formsep2 = st.columns(st.session_state.one_columns_params)
     with formsep1:
         st.markdown("")
