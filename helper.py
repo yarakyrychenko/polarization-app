@@ -25,9 +25,10 @@ def make_dataframe(collection):
     cols = ["id", "twitter_username", "party", "dem_words", "rep_words", "dem_temp", "rep_temp","username_mine"]
     df = pd.DataFrame(columns = cols)
     for row in collection.find():
-        df1 = pd.DataFrame(row, columns = cols)
-        df = pd.concat([df, df1], ignore_index=True)
-    df = df.drop(["id","twitter_username","username_mine"],axis=1)
+        print(row)
+        #df1 = pd.DataFrame(row, columns = cols)
+        #df = pd.concat([df, df1], ignore_index=True)
+    #df = df.drop(["id","twitter_username","username_mine"],axis=1)
     return df
 
 def make_v_wordcloud(all_rep_words, all_dem_words, label_list=["Republican","Democrat"]):
