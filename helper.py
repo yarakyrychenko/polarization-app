@@ -52,13 +52,7 @@ def make_v_wordcloud(all_rep_words, all_dem_words, label_list=["Republican","Dem
                     set_edgecolors=['w', 'w'],
                     ax=ax, set_labels=label_list)
                     #word_to_frequency=freq_dict )
-    # add color
-    #v.get_patch_by_id('10').set_color('red')
-    #v.get_patch_by_id('10').set_alpha(0.4)
-    #v.get_patch_by_id('01').set_color('blue')
-    #v.get_patch_by_id('01').set_alpha(0.4)
-    #v.get_patch_by_id('11').set_color('purple')
-    #v.get_patch_by_id('11').set_alpha(0.2)
+
     
     return fig, [item[0] for item in counter.most_common(5)]
 
