@@ -141,9 +141,9 @@ if agree:
             cols = ['_id', "id", "twitter_username", "party", "dem_words", "rep_words", "dem_temp", "rep_temp","username_mine"]
             df = pd.DataFrame(columns = cols)
             for row in st.session_state.collection.find():
-                print(row)
+                st.write(row)
 
-            print("end")
+            st.write("end")
                 #df1 = pd.DataFrame(list(row.values()), columns = cols)
                 #df = pd.concat([df, df1], ignore_index=True)
             #st.session_state.df = df.drop(['_id',"id","twitter_username","username_mine"],axis=1)
