@@ -1,5 +1,4 @@
 import streamlit as st
-from shillelagh.backends.apsw.db import connect
 import streamlit.components.v1 as components
 from streamlit_lottie import st_lottie
 from datetime import datetime

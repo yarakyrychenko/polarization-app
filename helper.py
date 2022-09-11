@@ -1,5 +1,4 @@
 import streamlit as st
-from shillelagh.backends.apsw.db import connect
 import collections
 import pandas as pd
 import seaborn as sns 
@@ -13,13 +12,6 @@ def load_lottieurl(url):
     if r.status_code != 200:
         return None
     return r.json()
-
-def insert_user_data(conn, sheet_url):
-    insert = f"""
-            INSERT INTO "{sheet_url}" (id, twitter_username, party, dem_words, rep_words, dem_temp, rep_temp, username_mine)
-            VALUES ("{st.session_state.id}", "{st.session_state.name}", "{st.session_state.party}", "{st.session_state.dem_words}", "{st.session_state.rep_words}", "{st.session_state.dem_temp}","{st.session_state.rep_temp}","{st.session_state.username_mine}")
-            """
-    #conn.execute(insert)
 
 def make_dataframe(collection):
     cols = ['_id', "id", "twitter_username", "party", "dem_words", "rep_words", "dem_temp", "rep_temp","username_mine"]
