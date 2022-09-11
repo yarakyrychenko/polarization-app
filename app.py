@@ -142,6 +142,7 @@ if agree:
             df = pd.DataFrame(columns = cols)
             for row in st.session_state.collection.find():
                 st.write(list(row.values()))
+                st.write(type(list(row.values())))
 
             st.write("end")
                 #df1 = pd.DataFrame(list(row.values()), columns = cols)
