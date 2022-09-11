@@ -1,5 +1,5 @@
 shillelagh
-pymongo
+pymongo[srv]
 datetime
 uuid
 matplotlib-venn-wordcloud
