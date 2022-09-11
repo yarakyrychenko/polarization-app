@@ -17,6 +17,7 @@ st.set_page_config(
          'About': "# See how the two parties view each other." }
 )
 
+
 sns.set(rc={'figure.figsize':(4,5)})
 sns.set_style("whitegrid")
 
@@ -59,7 +60,14 @@ st.session_state.submitted = False
 st.session_state.disable = True 
 st.session_state.two_columns_params = (.1, 1.5, .2, 1.5, .1)
 
-if False: #agree:
+
+if agree:
+    import pymongo
+
+    client = pymongo.MongoClient(st.secrets["mongo"])
+    db = client.polarization
+    st.session_state.collection = db.app
+
     formsep1, formcol1, formsep2 = st.columns(st.session_state.one_columns_params)
     with formsep1:
         st.markdown("")
@@ -109,25 +117,28 @@ if False: #agree:
             if st.session_state.submitted:
                 st.session_state.id = datetime.now().strftime('%Y%m-%d%H-%M-') + str(uuid4())
                 st.markdown(f"Thanks for submitting your answers! Your app ID is **{st.session_state.id}**. [Email me](mailto:yara@nyu.edu) with it if you want your answers deleted.") 
-                        
-                st.session_state.conn = connect(":memory:", 
-                            adapter_kwargs = {
-                            "gsheetsapi": { 
-                            "service_account_info":  st.secrets["gcp_service_account"] 
-                                    }
-                                        }
-                        )
 
-                insert_user_data(st.session_state.conn, st.secrets["private_gsheets_url"])
+                user_data = {
+                            "id": st.session_state.id, 
+                            "twitter_username": st.session_state.name, 
+                            "party": st.session_state.party, 
+                            "dem_words": st.session_state.dem_words, 
+                            "rep_words": st.session_state.rep_words, 
+                            "dem_temp": st.session_state.dem_temp,
+                            "rep_temp": st.session_state.rep_temp,
+                            "username_mine": st.session_state.username_mine 
+                            }
+
+                st.session_state.collection.insert_one(user_data)        
+                #st.session_state.conn = connect(":memory:", adapter_kwargs = {"gsheetsapi": {"service_account_info":  st.secrets["gcp_service_account"]}})
+                #insert_user_data(st.session_state.conn, st.secrets["private_gsheets_url"])
 
     with formsep2:
         st.markdown("")
 
     if st.session_state.submitted and 'df' not in st.session_state:
         with st.spinner(text="Retrieving data..."):
-            sheet_url = st.secrets["private_gsheets_url"]
-            query = f'SELECT * FROM "{sheet_url}"'
-            st.session_state.df = make_dataframe(st.session_state.conn.execute(query))
+            st.session_state.df = make_dataframe(st.session_state.collection)
 
     if st.session_state.submitted and 'df' in st.session_state:    
 

@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib_venn_wordcloud import venn2_wordcloud
 import requests
 
+
 def load_lottieurl(url):
     r = requests.get(url)
     if r.status_code != 200:
@@ -18,11 +19,14 @@ def insert_user_data(conn, sheet_url):
             INSERT INTO "{sheet_url}" (id, twitter_username, party, dem_words, rep_words, dem_temp, rep_temp, username_mine)
             VALUES ("{st.session_state.id}", "{st.session_state.name}", "{st.session_state.party}", "{st.session_state.dem_words}", "{st.session_state.rep_words}", "{st.session_state.dem_temp}","{st.session_state.rep_temp}","{st.session_state.username_mine}")
             """
-    conn.execute(insert)
+    #conn.execute(insert)
 
-def make_dataframe(executed_query):
-    df = pd.DataFrame(executed_query.fetchall())
-    df.columns = ["id", "twitter_username", "party", "dem_words", "rep_words", "dem_temp", "rep_temp","username_mine"]
+def make_dataframe(collection):
+    cols = ["id", "twitter_username", "party", "dem_words", "rep_words", "dem_temp", "rep_temp","username_mine"]
+    df = pd.DataFrame(columns = cols)
+    for row in collection.find():
+        df1 = pd.DataFrame(row, columns = cols)
+        df = pd.concat([df, df1], ignore_index=True)
     df = df.drop(["id","twitter_username","username_mine"],axis=1)
     return df
 
