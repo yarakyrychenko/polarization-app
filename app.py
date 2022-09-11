@@ -5,7 +5,7 @@ from datetime import datetime
 from uuid import uuid4
 import seaborn as sns 
 import pandas as pd
-from helper import load_lottieurl, insert_user_data, make_dataframe, make_v_wordcloud, make_barplot
+from helper import load_lottieurl, make_v_wordcloud, make_barplot
 
 
 st.set_page_config(
@@ -141,12 +141,8 @@ if agree:
             list1 = []
             for row in st.session_state.collection.find():
                 list1.append(list(row.values()))
-
-                #df1 = pd.DataFrame(list(row.values()), columns = cols)
-            #df = pd.concat([df, df1], ignore_index=True)
             df = pd.DataFrame(list1, columns = cols)
             st.session_state.df = df.drop(['_id',"id","twitter_username","username_mine"],axis=1)
-            #st.session_state.df = make_dataframe(st.session_state.collection)
 
     if st.session_state.submitted and 'df' in st.session_state:    
 
